@@ -1,14 +1,19 @@
+## __MY LIST ANIME__
 This is a Kotlin Multiplatform project targeting Android, iOS.
 
-* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - `commonMain` is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    `iosMain` would be the right folder for such calls.
+### __ABOUT__
 
-* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+### App from course Architect Coders. Made with jetpack compose, with the aim of using good practices, clean architecture, dependency injection, testing.
 
+## __FEATURES__
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+* List of animes on home, see details of each listed one
+
+## __DEVELOPMENT__
+
+* multiplatform coil, statusbar, navigation, viewmodels, ktor client 
+
+* screens with compose
+* ViewModel and data from api
+* ViewModel UI with StateFlow, navigation
+* repository, datasources, bd room. reactive ui
