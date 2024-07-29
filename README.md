@@ -15,4 +15,4 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 
 * screens with compose
 * ViewModel and data from api
-* ViewModel UI with Flow
+* ViewModel UI with MutableStateFlow
