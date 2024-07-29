@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mleiva.kmpmylistanime.data.Anime
 import com.mleiva.kmpmylistanime.data.AnimesRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /***
@@ -19,15 +22,15 @@ class HomeViewModel(
 ) : ViewModel() {
 
 
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            state = UiState(isLoading = true)
+            _state.value = UiState(isLoading = true)
             repository.animes.collect{
                 if(it.isNotEmpty()){
-                    state = UiState(isLoading = false, animeList = it)
+                    _state.value = UiState(isLoading = false, animeList = it)
                 }
             }
         }

@@ -1,12 +1,13 @@
 package com.mleiva.kmpmylistanime.ui.screens.detail
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mleiva.kmpmylistanime.data.Anime
 import com.mleiva.kmpmylistanime.data.AnimesRepository
+import com.mleiva.kmpmylistanime.ui.screens.home.HomeViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 /***
@@ -19,15 +20,15 @@ class DetailViewModel(
     private val repository: AnimesRepository
 ): ViewModel() {
 
-    var state by mutableStateOf(Uistate())
-        private set
+    private val _state = MutableStateFlow(Uistate())
+    val state: StateFlow<Uistate> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            state = Uistate(isLoading = true)
+            _state.value = Uistate(isLoading = true)
             repository.fetchAnimeById(id).collect{
                 it?.let{
-                    state = Uistate(isLoading = false, anime = it)
+                    _state.value = Uistate(isLoading = false, anime = it)
                 }
             }
         }
@@ -39,7 +40,7 @@ class DetailViewModel(
     )
 
     fun onFavoriteClick(){
-        state.anime?.let {
+        state.value.anime?.let {
             viewModelScope.launch {
                 repository.toggleFavorite(it)
             }
