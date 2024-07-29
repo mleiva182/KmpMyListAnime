@@ -9,9 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.mleiva.kmpmylistanime.data.Anime
 import com.mleiva.kmpmylistanime.data.AnimesRepository
 import com.mleiva.kmpmylistanime.data.AnimesService
+import com.mleiva.kmpmylistanime.data.database.AnimesDao
 import com.mleiva.kmpmylistanime.ui.screens.detail.DetailScreen
 import com.mleiva.kmpmylistanime.ui.screens.detail.DetailViewModel
 import com.mleiva.kmpmylistanime.ui.screens.home.HomeScreen
@@ -29,9 +29,9 @@ import kotlinx.serialization.json.Json
  * Creted by: Marcelo Leiva on 28-07-2024 at 10:38
  ***/
 @Composable
-fun Navigation(modifier: Modifier = Modifier) {
+fun Navigation(animesDao: AnimesDao, modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val repository = rememberAnimeRepository()
+    val repository = rememberAnimeRepository(animesDao)
 
     NavHost(navController = navController, startDestination = "home"){
         composable("home"){
@@ -59,7 +59,9 @@ fun Navigation(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun rememberAnimeRepository(): AnimesRepository = remember {
+private fun rememberAnimeRepository(
+    animesDao: AnimesDao
+): AnimesRepository = remember {
     val client = HttpClient {
         install(ContentNegotiation) {
             json(
@@ -76,5 +78,5 @@ private fun rememberAnimeRepository(): AnimesRepository = remember {
             }
         }
     }
-    AnimesRepository(AnimesService(client))
+    AnimesRepository(AnimesService(client), animesDao)
 }

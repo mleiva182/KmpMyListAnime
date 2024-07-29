@@ -7,9 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mleiva.kmpmylistanime.data.Anime
 import com.mleiva.kmpmylistanime.data.AnimesRepository
-import com.mleiva.kmpmylistanime.data.AnimesService
-import com.mleiva.kmpmylistanime.data.Data
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /***
@@ -28,10 +25,11 @@ class HomeViewModel(
     init {
         viewModelScope.launch {
             state = UiState(isLoading = true)
-            state = UiState(
-                isLoading = false,
-                animeList = repository.fetchAnimes()
-            )
+            repository.animes.collect{
+                if(it.isNotEmpty()){
+                    state = UiState(isLoading = false, animeList = it)
+                }
+            }
         }
     }
 

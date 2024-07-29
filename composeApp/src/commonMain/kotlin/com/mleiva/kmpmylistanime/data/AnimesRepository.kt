@@ -1,18 +1,34 @@
 package com.mleiva.kmpmylistanime.data
 
+import com.mleiva.kmpmylistanime.data.database.AnimesDao
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
+
 /***
  * Project: KmpMyListAnime
  * From: com.mleiva.kmpmylistanime.data
  * Creted by: Marcelo Leiva on 28-07-2024 at 14:19
  ***/
-class AnimesRepository(private val animesService: AnimesService) {
+class AnimesRepository(
+    private val animesService: AnimesService,
+    private val animesDao: AnimesDao
+) {
 
-    suspend fun fetchAnimes(): List<Anime> {
-        return animesService.fetchAnimes().results.map { it.toDomainModel() }
+    val animes: Flow<List<Anime>> = animesDao.fetchAnimes().onEach { animes ->
+        if(animes.isEmpty()){
+            val remoteAnimes = animesService.fetchAnimes().results.map {
+                it.toDomainModel()
+            }
+            animesDao.save(remoteAnimes)
+        }
     }
 
-    suspend fun fetchAnimeById(id: Int): Anime{
-        return animesService.fetchAnimeById(id).toDomainModel()
+
+    suspend fun fetchAnimeById(id: Int): Flow<Anime?> = animesDao.fetchAnimeById(id).onEach { anime ->
+        if(anime == null) {
+            val remoteAnime = animesService.fetchAnimeById(id).toDomainModel()
+            animesDao.save(listOf(remoteAnime))
+        }
     }
 
 }

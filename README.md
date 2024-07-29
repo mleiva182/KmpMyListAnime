@@ -3,7 +3,7 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 
 ### __ABOUT__
 
-### App from course Architect Coders. Made with jetpack compose, with the aim of using good practices, clean architecture, dependency injection, testing.
+### App from course Architect Coders. Made with Kotlin Multiplatform, with the aim of using good practices, clean architecture, dependency injection, testing.
 
 ## __FEATURES__
 
@@ -11,9 +11,9 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 
 ## __DEVELOPMENT__
 
-* multiplatform coil, statusbar, navigation, viewmodels, ktor client 
+* multiplatform coil, statusbar, navigation, viewmodels, ktor client, room.
 
 * screens with compose
 * ViewModel and data from api
 * ViewModel UI with StateFlow, navigation
-* repository, datasources, bd room. reactive ui
+* repository, datasources, room. reactive ui

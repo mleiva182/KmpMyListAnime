@@ -73,7 +73,7 @@ data class Broadcast(
 @Serializable
 data class Genre(
     @SerialName("mal_id")
-    val malId: Int,
+    val malId: Int? = null,
     @SerialName("name")
     val name: String,
     @SerialName("type")
@@ -85,7 +85,7 @@ data class Genre(
 @Serializable
 data class Studio(
     @SerialName("mal_id")
-    val malId: Int,
+    val malId: Int? = null,
     @SerialName("type")
     val type: String,
     @SerialName("name")

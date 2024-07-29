@@ -25,10 +25,11 @@ class DetailViewModel(
     init {
         viewModelScope.launch {
             state = Uistate(isLoading = true)
-            state = Uistate(
-                isLoading = false,
-                anime = repository.fetchAnimeById(id)
-            )
+            repository.fetchAnimeById(id).collect{
+                it?.let{
+                    state = Uistate(isLoading = false, anime = it)
+                }
+            }
         }
     }
 
