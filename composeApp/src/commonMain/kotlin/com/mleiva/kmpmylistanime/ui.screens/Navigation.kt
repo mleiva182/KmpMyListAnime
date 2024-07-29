@@ -20,8 +20,11 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.URLProtocol
+import io.ktor.http.parametersOf
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 /***
  * Project: KmpMyListAnime
@@ -29,18 +32,14 @@ import kotlinx.serialization.json.Json
  * Creted by: Marcelo Leiva on 28-07-2024 at 10:38
  ***/
 @Composable
-fun Navigation(animesDao: AnimesDao, modifier: Modifier = Modifier) {
+fun Navigation(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val repository = rememberAnimeRepository(animesDao)
 
     NavHost(navController = navController, startDestination = "home"){
         composable("home"){
             HomeScreen(
                 onAnimeClick = { anime ->
                     navController.navigate("details/${anime.id}")
-                },
-                vm = viewModel {
-                    HomeViewModel(repository)
                 }
             )
         }
@@ -50,33 +49,10 @@ fun Navigation(animesDao: AnimesDao, modifier: Modifier = Modifier) {
         ){ backStackEntry ->
             val animeId = checkNotNull(backStackEntry.arguments?.getInt("animeId"))
             DetailScreen(
-                vm = viewModel { DetailViewModel(animeId, repository) },
+                vm = koinViewModel(parameters = { parametersOf(animeId) }),
                 onBack = { navController.popBackStack() }
             )
         }
     }
 
-}
-
-@Composable
-private fun rememberAnimeRepository(
-    animesDao: AnimesDao
-): AnimesRepository = remember {
-    val client = HttpClient {
-        install(ContentNegotiation) {
-            json(
-                Json {
-                    ignoreUnknownKeys = true
-                    coerceInputValues = true
-                }
-            )
-        }
-        install(DefaultRequest) {
-            url {
-                protocol = URLProtocol.HTTPS
-                host = "api.jikan.moe"
-            }
-        }
-    }
-    AnimesRepository(AnimesService(client), animesDao)
 }

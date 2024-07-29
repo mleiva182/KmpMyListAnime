@@ -11,13 +11,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -29,7 +33,9 @@ import com.mleiva.kmpmylistanime.ui.screens.Screen
 import com.mleiva.kmpmylistanime.ui.screens.common.LoadingIndicator
 import kmpmylistanime.composeapp.generated.resources.Res
 import kmpmylistanime.composeapp.generated.resources.app_name
+import kmpmylistanime.composeapp.generated.resources.favorite
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 /***
  * Project: KmpMyListAnime
@@ -39,7 +45,7 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onAnimeClick: (Anime) -> Unit = {},
-               vm: HomeViewModel,
+               vm: HomeViewModel = koinViewModel(),
                modifier: Modifier = Modifier) {
     Screen {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
@@ -88,6 +94,14 @@ fun AnimeItem(anime: Anime, onAnimeClick: () -> Unit) {
                     .aspectRatio(2 / 3f)
                     .clip(MaterialTheme.shapes.small)
             )
+            if (anime.favorite) {
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = stringResource(Res.string.favorite),
+                    tint = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier.align(Alignment.TopEnd).padding(8.dp)
+                )
+            }
         }
 
         Text(

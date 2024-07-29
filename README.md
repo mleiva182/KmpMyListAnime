@@ -7,13 +7,12 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 
 ## __FEATURES__
 
-* List of animes on home, see details of each listed one
+* List of animes on home, see details of each listed one, mark as favorite.
 
 ## __DEVELOPMENT__
 
-* multiplatform coil, statusbar, navigation, viewmodels, ktor client, room.
+* multiplatform coil, statusbar, navigation, viewmodels, ktor client, room, koin.
 
 * screens with compose
 * ViewModel and data from api
-* ViewModel UI with StateFlow, navigation
-* repository, datasources, room. reactive ui
+* ViewModel UI with Flow

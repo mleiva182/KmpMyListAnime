@@ -38,4 +38,13 @@ class DetailViewModel(
         val anime: Anime? = null
     )
 
+    fun onFavoriteClick(){
+        state.anime?.let {
+            viewModelScope.launch {
+                repository.toggleFavorite(it)
+            }
+
+        }
+    }
+
 }

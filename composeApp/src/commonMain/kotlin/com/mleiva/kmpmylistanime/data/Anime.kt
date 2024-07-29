@@ -21,6 +21,6 @@ data class Anime(
     val broadcast: Broadcast,
     val genres: List<Genre>,
     val studios: List<Studio>,
-    val favorite: Boolean
+    val favorite: Boolean,
 )
 

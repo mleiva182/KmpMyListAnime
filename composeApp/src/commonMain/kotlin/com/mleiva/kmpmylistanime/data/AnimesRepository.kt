@@ -31,6 +31,10 @@ class AnimesRepository(
         }
     }
 
+    suspend fun toggleFavorite(anime: Anime) {
+        animesDao.save(listOf(anime.copy(favorite = !anime.favorite)))
+    }
+
 }
 
 private fun Data.toDomainModel() = Anime(

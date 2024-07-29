@@ -8,15 +8,19 @@ import coil3.util.DebugLogger
 import com.mleiva.kmpmylistanime.data.database.AnimesDao
 import com.mleiva.kmpmylistanime.ui.screens.Navigation
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.KoinContext
 
 @Composable
 @Preview
-fun App(animesDao: AnimesDao) {
+fun App() {
     setSingletonImageLoaderFactory { context ->
         ImageLoader.Builder(context)
             .crossfade(true)
             .logger(DebugLogger())
             .build()
     }
-    Navigation(animesDao)
+    KoinContext {
+        Navigation()
+    }
+
 }
