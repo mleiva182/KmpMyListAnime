@@ -14,6 +14,6 @@ import androidx.room.RoomDatabase
     val dbFile = appContext.getDatabasePath(DATABASE_NAME)
     return Room.databaseBuilder(
         context = appContext,
-        name = dbFile.name
+        name = dbFile.absolutePath
     )
  }

@@ -112,12 +112,6 @@ android {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
-    if (name != "kspCommonMainKotlinMetadata") {
-        dependsOn("kspCommonMainKotlinMetadata")
-    }
-}
-
 room {
     schemaDirectory("$projectDir/schemas")
 }
@@ -125,3 +119,12 @@ room {
 dependencies {
     add("kspCommonMainMetadata", libs.androidx.room.compiler)
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+
+
